@@ -10,6 +10,19 @@ from service.common import status  # HTTP Status Codes
 from . import app  # Import Flask application
 
 
+######################################################################
+# S E C U R I T Y   H E A D E R S
+######################################################################
+@app.after_request
+def set_security_headers(response):
+    """Set security headers for every response"""
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Content-Security-Policy'] = "default-src 'self'; object-src 'none'"
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
+
 ############################################################
 # Health Endpoint
 ############################################################
